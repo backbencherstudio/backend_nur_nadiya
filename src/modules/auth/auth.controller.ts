@@ -39,8 +39,8 @@ export const login = async(req: Request, res: Response)=> {
             throw new Error("Invalid password");
         }
         // create a token and send the repsonse
-        const accessToken = jwt.sign({id:isExist.id}, appCOnfig.app.secret_key, {expiresIn: '1h'})
-        const refreshToken = jwt.sign({id:isExist.id}, appCOnfig.app.secret_key, {expiresIn: '7d'})
+        const accessToken = jwt.sign({id:isExist.id}, appCOnfig.app.access_secret_key, {expiresIn: '1h'})
+        const refreshToken = jwt.sign({id:isExist.id}, appCOnfig.app.refresh_secret_key, {expiresIn: '7d'})
         const {password:_, ...user} = isExist;
         res.status(200).json({
             success:true,
@@ -50,6 +50,20 @@ export const login = async(req: Request, res: Response)=> {
             refreshToken
             
         })
+    } catch (error:any) {
+        res.status(400).json({error:error.message})
+    }
+}
+
+// logout controller
+export const logout = async(req: Request, res: Response)=> {
+    const {refreshToken} = req.body;
+    const userId = (req.user as any).id;
+    try {
+        await UserRepository.deleteRefreshToken(userId, refreshToken);
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
+        res.status(200).json({success:true, message:"Logout successful"})
     } catch (error:any) {
         res.status(400).json({error:error.message})
     }

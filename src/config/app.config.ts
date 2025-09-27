@@ -6,7 +6,9 @@ export const appCOnfig = {
         client_url: process.env.CLIENT_URL,
         server_url: process.env.SERVER_URL,
         app_name: process.env.APP_NAME,
-        secret_key: process.env.SECRET_KEY || "your-secret-key-here"
+        secret_key: process.env.SECRET_KEY || "your-secret-key-here",
+        access_secret_key: process.env.ACCESS_SECRET_KEY || "your-secret-key-here",
+        refresh_secret_key: process.env.REFRESH_SECRET_KEY || "your-secret-key-here"
     },
     oauth:{
         google_client_id: process.env.GOOGLE_CLIENT_ID || "",
