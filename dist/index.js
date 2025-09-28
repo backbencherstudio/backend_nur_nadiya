@@ -1,8 +1,8 @@
 import express from "express";
-import setupRoutes from "./setup_routes";
-import { appCOnfig } from "./config/app.config";
+import setupRoutes from "./setup_routes.js";
+import { appCOnfig } from "./config/app.config.js";
 import cors from "cors";
-import passport from "./config/passport";
+import passport from "./config/passport.js";
 const app = express();
 // initialize passport
 app.use(passport.initialize());

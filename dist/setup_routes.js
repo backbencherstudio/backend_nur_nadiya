@@ -1,5 +1,5 @@
-import authRoutes from "./modules/auth/auth.routes";
-import adminRoute from "./modules/Admin/admin.routes";
+import authRoutes from "./modules/auth/auth.routes.js";
+import adminRoute from "./modules/Admin/admin.routes.js";
 function setupRoutes(app) {
     // Authentication Api Routes
     app.use("/api/auth", authRoutes);

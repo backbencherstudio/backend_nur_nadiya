@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
-import { appCOnfig } from "../../../config/app.config";
+import { appCOnfig } from "../../../config/app.config.js";
 const prisma = new PrismaClient();
 export class UserRepository {
     // check user exist or not 

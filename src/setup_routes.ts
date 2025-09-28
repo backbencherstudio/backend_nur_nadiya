@@ -1,6 +1,6 @@
 import express from "express";
-import authRoutes from "./modules/auth/auth.routes";
-import adminRoute from "./modules/Admin/admin.routes";
+import authRoutes from "./modules/auth/auth.routes.js";
+import adminRoute from "./modules/Admin/admin.routes.js";
 
 function setupRoutes(app: express.Application){
     // Authentication Api Routes
