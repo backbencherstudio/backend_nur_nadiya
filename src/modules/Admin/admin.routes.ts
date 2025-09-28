@@ -1,5 +1,5 @@
 import express from "express"
-import { addEnquiry } from "./add-enquiries/add_enquiries.controller.ts"
+import { addEnquiry } from "./add-enquiries/add_enquiries.controller"
 
 const adminRoute = express.Router()
 

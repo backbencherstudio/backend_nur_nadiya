@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { Authservice } from "./auth.service.ts";
-import { UserRepository } from "../../common/repository/user/user.repository.ts";
+import { Authservice } from "./auth.service";
+import { UserRepository } from "../../common/repository/user/user.repository";
 import bcrypt from "bcrypt";
-import { appCOnfig } from "../../config/app.config.ts";
+import { appCOnfig } from "../../config/app.config";
 import jwt from "jsonwebtoken"
 
 // Register Controller
