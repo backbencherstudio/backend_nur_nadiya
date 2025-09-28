@@ -43,7 +43,7 @@ authRoutes.get('/google/callback',
                 path: "/"
             })
 
-            const { password:_, ...userData } = user;
+            const { password: _password, ...userData } = user;
             // send the response
             console.log(userData)
             res.status(200).json({
