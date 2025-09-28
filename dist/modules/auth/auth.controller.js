@@ -1,7 +1,7 @@
-import { Authservice } from "./auth.service";
-import { UserRepository } from "../../common/repository/user/user.repository";
+import { Authservice } from "./auth.service.js";
+import { UserRepository } from "../../common/repository/user/user.repository.js";
 import bcrypt from "bcrypt";
-import { appCOnfig } from "../../config/app.config";
+import { appCOnfig } from "../../config/app.config.js";
 import jwt from "jsonwebtoken";
 // Register Controller
 export const register = async (req, res) => {
