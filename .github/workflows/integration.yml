@@ -32,6 +32,17 @@ jobs:
       run: npm run lint
     
     - name: Build Application
-      run: npm run build
+      run: npm run build:github
+  
+    
+  deploy:
+    runs-on: ubantu-latest
+    needs: build
+
+    steps:
+      - name: Deploy Application
+        run: |
+          curl -x POST "https://api.render.com/deploy/srv-d3agmqjipnbc739ja130?key=cHwaW24dwEQ" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
 
   
