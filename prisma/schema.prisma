@@ -31,3 +31,42 @@ model User {
 
   @@map("users")
 }
+
+model EmployerEnquiry {
+  id                                 String @id @default(uuid())
+  full_name                          String
+  enquiry_type                       String
+  date_of_birth                      DateTime
+  transfer_date                      DateTime
+  wp_number                          String
+  mobile_number                      String
+  language                           String
+  nationality                        String
+  additional_information             String
+  current_employer                   Boolean
+  image_name                         String?
+  image_path                         String?
+
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+
+  @@map("employer_enquiries")
+}
+model MaidEnquiry {
+  id                                 String @id @default(uuid())
+  full_name                          String
+  enquiry_type                       String
+  contact_number                     String
+  email                              String
+  hosehold_type                      String
+  language                           String
+  budget                             String
+  additional_information             String
+  image_name                         String?
+  image_path                         String?
+
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
+
+  @@map("maid_enquiries")
+}
