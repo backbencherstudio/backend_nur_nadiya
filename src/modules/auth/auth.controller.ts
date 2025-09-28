@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { Authservice } from "./auth.service.ts";
-import { UserRepository } from "../../common/repository/user/user.repository.ts";
+import { Authservice } from "./auth.service";
+import { UserRepository } from "../../common/repository/user/user.repository";
 import bcrypt from "bcrypt";
-import { appCOnfig } from "../../config/app.config.ts";
+import { appCOnfig } from "../../config/app.config";
 import jwt from "jsonwebtoken"
 
 // Register Controller
@@ -41,7 +41,7 @@ export const login = async(req: Request, res: Response)=> {
         // create a token and send the repsonse
         const accessToken = jwt.sign({id:isExist.id}, appCOnfig.app.access_secret_key, {expiresIn: '1h'})
         const refreshToken = jwt.sign({id:isExist.id}, appCOnfig.app.refresh_secret_key, {expiresIn: '7d'})
-        const {password:_, ...user} = isExist;
+        const {password: _password, ...user} = isExist;
         res.status(200).json({
             success:true,
             message:"Login successful",

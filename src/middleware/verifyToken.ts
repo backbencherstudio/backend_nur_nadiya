@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { appCOnfig } from "../config/app.config.ts";
+import { appCOnfig } from "../config/app.config";
 
 export const verifyToken = async (req: Request, res: Response, next: NextFunction)=> {
 

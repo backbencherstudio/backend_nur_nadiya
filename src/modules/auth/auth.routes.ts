@@ -1,8 +1,8 @@
 import express from "express";
-import { login, register, logout } from "./auth.controller.ts";
+import { login, register, logout } from "./auth.controller";
 import passport from "passport";
-import { UserRepository } from "../../common/repository/user/user.repository.ts";
-import { verifyToken } from "../../middleware/verifyToken.ts";
+import { UserRepository } from "../../common/repository/user/user.repository";
+import { verifyToken } from "../../middleware/verifyToken";
 
 const authRoutes = express.Router();
 
@@ -43,7 +43,7 @@ authRoutes.get('/google/callback',
                 path: "/"
             })
 
-            const { password:_, ...userData } = user;
+            const { password: _password, ...userData } = user;
             // send the response
             console.log(userData)
             res.status(200).json({
