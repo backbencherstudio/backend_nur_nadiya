@@ -1,8 +1,10 @@
 import express from "express"
-import { addEnquiry } from "./add-enquiries/add_enquiries.controller.js"
+import { addEnquiry, upload } from "./add-enquiries/add_enquiries.controller.js"
+import { handleUploadError } from "../../middleware/uploadErrorHandler.js"
 
 const adminRoute = express.Router()
 
-adminRoute.post("/add-enquiry", addEnquiry)
+// Clean route with proper middleware separation
+adminRoute.post("/add-enquiry", upload.single('image'), handleUploadError, addEnquiry)
 
 export default adminRoute

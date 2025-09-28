@@ -16,11 +16,14 @@ app.use(cors({
     allowedHeaders:["Content-Type", "Authorization"],
 }))
 
+// Serve static files (uploaded images)
+app.use('/uploads', express.static('public/enquiries'));
+
 // setup routes
 setupRoutes(app);
 
 // port
-const port = appCOnfig.app.port
+const port = appCOnfig.app.port || 8000
 app.listen(port, ()=>{
     console.log(`Server is running on port ${port}`);
 })
