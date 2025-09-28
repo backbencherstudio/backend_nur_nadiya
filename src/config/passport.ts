@@ -1,10 +1,8 @@
 import passport from "passport"
-import { appCOnfig } from "./app.config.js";
-
+import { appCOnfig } from "./app.config.ts";
 import GoogleStrategy from 'passport-google-oauth20';
-import { UserRepository } from "../common/repository/user/user.repository.js";
+import { UserRepository } from "../common/repository/user/user.repository.ts";
 import { PrismaClient } from "@prisma/client";
-
 
 const prisma = new PrismaClient();
 
