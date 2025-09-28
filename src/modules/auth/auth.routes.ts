@@ -1,8 +1,8 @@
 import express from "express";
-import { login, register, logout } from "./auth.controller.js";
+import { login, register, logout } from "./auth.controller.ts";
 import passport from "passport";
-import { UserRepository } from "../../common/repository/user/user.repository.js";
-import { verifyToken } from "../../middleware/verifyToken.js";
+import { UserRepository } from "../../common/repository/user/user.repository.ts";
+import { verifyToken } from "../../middleware/verifyToken.ts";
 
 const authRoutes = express.Router();
 

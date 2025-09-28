@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec \"node --loader ts-node/esm\" src/index.ts",
-    "build": "npx prisma migrate deploy && npm install && tsc",
+    "dev": "nodemon --exec \"node --loader ts-node/esm --experimental-specifier-resolution=node\" src/index.ts",
+    "build": "tsc",
     "migrate": "npx prisma migrate deploy",
     "postinstall": "npx prisma generate",
     "start": "node dist/index.js",

@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
-import { Authservice } from "./auth.service.js";
-import { UserRepository } from "../../common/repository/user/user.repository.js";
+import { Authservice } from "./auth.service.ts";
+import { UserRepository } from "../../common/repository/user/user.repository.ts";
 import bcrypt from "bcrypt";
-import { appCOnfig } from "../../config/app.config.js";
+import { appCOnfig } from "../../config/app.config.ts";
 import jwt from "jsonwebtoken"
 
 // Register Controller
@@ -45,9 +45,12 @@ export const login = async(req: Request, res: Response)=> {
         res.status(200).json({
             success:true,
             message:"Login successful",
-            user,
-            accessToken,
-            refreshToken
+            data:user,
+            tokens:{
+                token_type: "Bearer",
+                accessToken,
+                refreshToken
+            }
             
         })
     } catch (error:any) {
