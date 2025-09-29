@@ -76,7 +76,6 @@ export const addBioData = async(req: Request, res: Response) => {
             education_level,
             age_of_childern,
             number_of_childern,
-            image,
             allergies,
             physical_disabilities,
             mental_illness,
