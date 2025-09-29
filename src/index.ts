@@ -18,6 +18,7 @@ app.use(cors({
 
 // Serve static files (uploaded images)
 app.use('/uploads', express.static('public/enquiries'));
+app.use('/bio-data-images', express.static('public/bio-data'));
 
 // setup routes
 setupRoutes(app);

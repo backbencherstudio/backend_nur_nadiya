@@ -95,7 +95,6 @@ export const addEnquiry = async(req: Request, res: Response)=>{
                     additional_information,
                     current_employer: current_employer === 'true' || current_employer === true,
                     image_name: req.file.filename,
-                    image_path: req.file.path,
                 }
             });
 
@@ -118,7 +117,6 @@ export const addEnquiry = async(req: Request, res: Response)=>{
                     budget,
                     additional_information,
                     image_name: req.file.filename,
-                    image_path: req.file.path,
                 }
             });
             res.status(200).json({
@@ -131,7 +129,8 @@ export const addEnquiry = async(req: Request, res: Response)=>{
         console.error("Error:", error);
         res.status(400).json({
             success: false,
-            error: error.message
+            error: error.message,
+            data: null
         });
     }
 }
