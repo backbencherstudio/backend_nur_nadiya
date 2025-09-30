@@ -42,7 +42,8 @@ jobs:
 
     # Deploy the AWS EC2
     - name: Deploy to AWS EC2
-      run: ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
         cd /var/www/backend
         git pull
         npx prisma migrate deploy
