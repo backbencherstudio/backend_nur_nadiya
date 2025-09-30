@@ -16,6 +16,10 @@ app.use(cors({
     allowedHeaders:["Content-Type", "Authorization"],
 }))
 
+app.use('/',(req,res)=>{
+    res.send("Hello World")
+})
+
 // Serve static files (uploaded images)
 app.use('/uploads', express.static('public/enquiries'));
 app.use('/bio-data-images', express.static('public/bio-data'));
