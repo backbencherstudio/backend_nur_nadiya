@@ -17,7 +17,7 @@ app.use(cors({
 }))
 
 app.use('/',(req,res)=>{
-    res.send("Hello World")
+    res.send("Hello World 2")
 })
 
 // Serve static files (uploaded images)
