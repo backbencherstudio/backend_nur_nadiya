@@ -50,6 +50,7 @@ jobs:
         npm install
         npm run build:prod
         pm2 restart backend
+        sudo systemctl reload nginx
         EOF
 
   
