@@ -24,7 +24,7 @@ app.use('/bio-data-images', express.static('public/bio-data'));
 setupRoutes(app);
 
 // port
-const port = appCOnfig.app.port || 8000
+const port = appCOnfig.app.port || 4000
 app.listen(port, ()=>{
     console.log(`Server is running on port ${port}`);
 })
