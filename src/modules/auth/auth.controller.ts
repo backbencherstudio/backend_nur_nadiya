@@ -4,6 +4,9 @@ import { UserRepository } from "../../common/repository/user/user.repository.js"
 import bcrypt from "bcrypt";
 import { appCOnfig } from "../../config/app.config.js";
 import jwt from "jsonwebtoken"
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 // Register Controller
 export const register = async (req: Request,res: Response) =>{
@@ -15,6 +18,27 @@ export const register = async (req: Request,res: Response) =>{
             message:"Admin created successfully",
             data:null
         })
+    } catch (error:any) {
+        res.status(400).json({error:error.message})
+    }
+}
+
+// get the logged in user details
+export const getLoggedInUser = async(req: Request, res: Response)=> {
+    try {
+        const userId = (req.user as any).id;
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        });
+        
+        if (!user) {
+            return res.status(404).json({success: false, message: "User not found"});
+        }
+        
+        const {password: _password, ...userData} = user;
+        res.status(200).json({success:true, message:"User details fetched successfully", data:userData})
     } catch (error:any) {
         res.status(400).json({error:error.message})
     }

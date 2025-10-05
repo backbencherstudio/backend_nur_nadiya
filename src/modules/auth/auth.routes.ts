@@ -1,5 +1,5 @@
 import express from "express";
-import { login, register, logout } from "./auth.controller.js";
+import { login, register, logout, getLoggedInUser } from "./auth.controller.js";
 import passport from "passport";
 import { UserRepository } from "../../common/repository/user/user.repository.js";
 import { verifyToken } from "../../middleware/verifyToken.js";
@@ -8,6 +8,8 @@ const authRoutes = express.Router();
 
 authRoutes.post("/register", register)
 authRoutes.post("/login", login)
+
+authRoutes.get("/get-logged-in-user-details", verifyToken, getLoggedInUser)
 
 // google authentication routes
 authRoutes.get("/google", passport.authenticate("google", {scope: ["profile", "email"]}))

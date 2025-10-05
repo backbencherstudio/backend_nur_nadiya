@@ -8,6 +8,7 @@ function setupRoutes(app: express.Application){
 
     // Admin dashboard routes
     app.use("/api/admin", adminRoute)
+    app.use("/api/admin", adminRoute)
 
 }
 

@@ -1,0 +1,39 @@
+import { Request, Response, NextFunction } from "express";
+import { PrismaClient } from "@prisma/client";
+import { appCOnfig } from "../config/app.config";
+import jwt from "jsonwebtoken";
+
+const prisma = new PrismaClient();
+
+export const verifyAdmin = async (req: Request, res: Response, next: NextFunction)=> {
+    try {
+    // from access token we have to get the user id then check the user is admin or not
+    const accessToken = req.headers["authorization"]?.split(" ")[1];
+
+    if(!accessToken){
+        return res.status(401).json({success:false, message:"Invalid User"})
+    }
+
+    const decoded = jwt.verify(accessToken, appCOnfig.app.access_secret_key) as any;
+    req.user = decoded as any;
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: (req.user as any)?.id
+        }
+    });
+
+    if(!user){
+        return res.status(401).json({success:false, message:"User not found"})
+    }
+
+    if(user.role !== "admin"){
+        return res.status(401).json({success:false, message:"Unauthorized"})
+    }
+    
+    next();
+    
+    } catch (error:any) {
+        res.status(400).json({error:error.message, success:false})
+    }
+}
