@@ -42,27 +42,18 @@ export const upload = multer({
 
 export const addEnquiry = async(req: Request, res: Response)=>{
     try {
-        
-        
-        // Check if file was uploaded
-        if (!req.file) {
-            return res.status(400).json({
-                success: false,
-                message: "No image file uploaded"
-            });
-        }
-        
-        // Check file size (additional validation)
-        const fileSizeInMB = req.file.size / (1024 * 1024);
-        if (fileSizeInMB > 2) {
-            return res.status(400).json({
-                success: false,
-                message: `File size is ${fileSizeInMB.toFixed(2)}MB. Maximum allowed size is 2MB.`
-            });
-        }
-        
         // add enquire to database
-        if(req.body.enquiry_type === "employer"){
+        if(req.body.enquiry_type === "maid"){
+            // Check file size (additional validation) - only for maid enquiries
+            if (req.file) {
+                const fileSizeInMB = req.file.size / (1024 * 1024);
+                if (fileSizeInMB > 2) {
+                    return res.status(400).json({
+                        success: false,
+                        message: `File size is ${fileSizeInMB.toFixed(2)}MB. Maximum allowed size is 2MB.`
+                    });
+                }
+            }
             const { full_name, enquiry_type, date_of_birth, transfer_date, wp_number, mobile_number, language, nationality, additional_information, current_employer } = req.body;
             // Validate and convert dates
             const birthDate = new Date(date_of_birth);
@@ -82,7 +73,7 @@ export const addEnquiry = async(req: Request, res: Response)=>{
                 });
             }
             // Save to database
-            await prisma.employerEnquiry.create({
+            await prisma.maidEnquiry.create({
                 data: {
                     full_name,
                     enquiry_type,
@@ -94,19 +85,19 @@ export const addEnquiry = async(req: Request, res: Response)=>{
                     nationality,
                     additional_information,
                     current_employer: current_employer === 'true' || current_employer === true,
-                    image_name: req.file.filename,
+                    image_name: req.file?.filename || null,
                 }
             });
 
             res.status(200).json({
                 success: true,
-                message: "Employer Enquiry added successfully",
+                message: "Maid Enquiry added successfully",
                 data:null
             });
         }else{
             const { full_name, enquiry_type, contact_number, email, hosehold_type, language, budget, additional_information } = req.body;
             // Save to database
-            await prisma.maidEnquiry.create({
+            await prisma.employerEnquiry.create({
                 data: {
                     full_name,
                     enquiry_type,
@@ -116,12 +107,11 @@ export const addEnquiry = async(req: Request, res: Response)=>{
                     language,
                     budget,
                     additional_information,
-                    image_name: req.file.filename,
                 }
             });
             res.status(200).json({
                 success: true,
-                message: "MaidEnquiry added successfully",
+                message: "Employer Enquiry added successfully",
                 data:null
             });
         }

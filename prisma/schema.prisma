@@ -32,7 +32,7 @@ model User {
   @@map("users")
 }
 
-model EmployerEnquiry {
+model MaidEnquiry {
   id                                 String @id @default(uuid())
   full_name                          String
   enquiry_type                       String
@@ -45,13 +45,14 @@ model EmployerEnquiry {
   additional_information             String
   current_employer                   Boolean
   image_name                         String?
+  status                             String @default("uncontacted")
 
   createdAt                     DateTime @default(now())
   updatedAt                     DateTime @updatedAt
 
-  @@map("employer_enquiries")
+  @@map("maid_enquiries")
 }
-model MaidEnquiry {
+model EmployerEnquiry {
   id                                 String @id @default(uuid())
   full_name                          String
   enquiry_type                       String
@@ -61,12 +62,12 @@ model MaidEnquiry {
   language                           String
   budget                             String
   additional_information             String
-  image_name                         String?
+  status                             String @default("uncontacted")
 
   createdAt                     DateTime @default(now())
   updatedAt                     DateTime @updatedAt
 
-  @@map("maid_enquiries")
+  @@map("employer_enquiries")
 }
 
 model BioData{
@@ -74,7 +75,6 @@ model BioData{
   full_name                           String
   date_of_birth                       DateTime
   place_of_birth                      String
-  languages                           String[]
   status                              String @default("available")
   nationality                         String
   height                              String
@@ -100,40 +100,40 @@ model BioData{
   preference_for_rest_days            Boolean @default(false)
 
   any_other_remarks                   String?
-  area_of_work_one                    String?
-  willingness_one                     Boolean @default(false)
-  experience_one                      Boolean @default(false)
-  assessment_or_observation_one       String?
+  care_of_infants                     String?
+  care_of_infants_willingness         Boolean @default(false)
+  care_of_infants_experience          Boolean @default(false)
+  care_of_infants_assessment          String?
   // two
-  area_of_work_two                    String?
-  willingness_two                     Boolean @default(false)
-  experience_two                      Boolean @default(false)
-  assessment_or_observation_two       String?
+  care_of_elderly                     String?
+  care_of_elderly_willingness         Boolean @default(false)
+  care_of_elderly_experience          Boolean @default(false)
+  care_of_elderly_assessment          String?
   // three
-  area_of_work_three                  String?
-  willingness_three                   Boolean @default(false)
-  experience_three                    Boolean @default(false)
-  assessment_or_observation_three     String?
+  care_of_disabled                    String?
+  care_of_disabled_willingness        Boolean @default(false)
+  care_of_disabled_experience         Boolean @default(false)
+  care_of_disabled_assessment         String?
   // four
-  area_of_work_four                   String?
-  willingness_four                    Boolean @default(false)
-  experience_four                     Boolean @default(false)
-  assessment_or_observation_four      String?
+  general_housework                   String?
+  general_housework_willingnes        Boolean @default(false)
+  general_housework_experience        Boolean @default(false)
+  general_housework_assessment        String?
   // five
-  area_of_work_five                  String?
-  willingness_five                   Boolean @default(false)
-  experience_five                    Boolean @default(false)
-  assessment_or_observation_five     String?
+  cooking                             String?
+  cooking_willingness                 Boolean @default(false)
+  cooking_experience                  Boolean @default(false)
+  cooking_assessment                  String?
   // six
-  area_of_work_six                   String?
-  willingness_six                    Boolean @default(false)
-  experience_six                     Boolean @default(false)
-  assessment_or_observation_six      String?
+  language_abilities                  String?
+  language_abilities_willingness      Boolean @default(false)
+  language_abilities_experience       Boolean @default(false)
+  language_abilities_assessment       String?
   // seven
-  area_of_work_seven                   String?
-  willingness_seven                    Boolean @default(false)
-  experience_seven                     Boolean @default(false)
-  assessment_or_observation_seven      String?
+  other_skills                        String?
+  other_skills_willingness            Boolean @default(false)
+  other_skills_experience             Boolean @default(false)
+  other_skills_assessment             String?
 
   // employee history
   date_from                           DateTime?

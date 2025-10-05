@@ -65,8 +65,6 @@ export const addBioData = async(req: Request, res: Response) => {
             full_name,
             date_of_birth,
             place_of_birth,
-            languages,
-            status,
             nationality,
             height,
             weight,
@@ -76,6 +74,7 @@ export const addBioData = async(req: Request, res: Response) => {
             education_level,
             age_of_childern,
             number_of_childern,
+
             allergies,
             physical_disabilities,
             mental_illness,
@@ -87,35 +86,42 @@ export const addBioData = async(req: Request, res: Response) => {
             others,
             dietary_restrictions,
             preference_for_rest_days,
+
             any_other_remarks,
-            area_of_work_one,
-            willingness_one,
-            experience_one,
-            assessment_or_observation_one,
-            area_of_work_two,
-            willingness_two,
-            experience_two,
-            assessment_or_observation_two,
-            area_of_work_three,
-            willingness_three,
-            experience_three,
-            assessment_or_observation_three,
-            area_of_work_four,
-            willingness_four,
-            experience_four,
-            assessment_or_observation_four,
-            area_of_work_five,
-            willingness_five,
-            experience_five,
-            assessment_or_observation_five,
-            area_of_work_six,
-            willingness_six,
-            experience_six,
-            assessment_or_observation_six,
-            area_of_work_seven,
-            willingness_seven,
-            experience_seven,
-            assessment_or_observation_seven,
+            care_of_infants,
+            care_of_infants_willingness,
+            care_of_infants_experience,
+            care_of_infants_assessment,
+
+            care_of_elderly,
+            care_of_elderly_willingness,
+            care_of_elderly_experience,
+            care_of_elderly_assessment,
+
+            care_of_disabled,
+            care_of_disabled_willingness,
+            care_of_disabled_experience,
+            care_of_disabled_assessment,
+
+            general_housework,
+            general_housework_willingnes,
+            general_housework_experience,
+            general_housework_assessment,
+
+            cooking,
+            cooking_willingness,
+            cooking_experience,
+            cooking_assessment,
+
+            language_abilities,
+            language_abilities_willingness,
+            language_abilities_experience,
+            language_abilities_assessment,
+
+            other_skills,
+            other_skills_willingness,
+            other_skills_experience,
+            other_skills_assessment,
 
             date_from,
             date_to,
@@ -174,8 +180,6 @@ export const addBioData = async(req: Request, res: Response) => {
                 full_name,
                 date_of_birth: birthDate,
                 place_of_birth,
-                languages,
-                status,
                 nationality,
                 height,
                 weight,
@@ -197,35 +201,42 @@ export const addBioData = async(req: Request, res: Response) => {
                 others,
                 dietary_restrictions: dietary_restrictions || false,
                 preference_for_rest_days: preference_for_rest_days || false,
+
                 any_other_remarks,
-                area_of_work_one,
-                willingness_one: willingness_one || false,
-                experience_one: experience_one || false,
-                assessment_or_observation_one,
-                area_of_work_two,
-                willingness_two: willingness_two || false,
-                experience_two: experience_two || false,
-                assessment_or_observation_two,
-                area_of_work_three,
-                willingness_three: willingness_three || false,
-                experience_three: experience_three || false,
-                assessment_or_observation_three,
-                area_of_work_four,
-                willingness_four: willingness_four || false,
-                experience_four: experience_four || false,
-                assessment_or_observation_four,
-                area_of_work_five,
-                willingness_five: willingness_five || false,
-                experience_five: experience_five || false,
-                assessment_or_observation_five,
-                area_of_work_six,
-                willingness_six: willingness_six || false,
-                experience_six: experience_six || false,
-                assessment_or_observation_six,
-                area_of_work_seven,
-                willingness_seven: willingness_seven || false,
-                experience_seven: experience_seven || false,
-                assessment_or_observation_seven,
+                care_of_infants,
+                care_of_infants_willingness: care_of_infants_willingness || false,
+                care_of_infants_experience: care_of_infants_experience || false,
+                care_of_infants_assessment,
+
+                care_of_elderly,
+                care_of_elderly_willingness: care_of_elderly_willingness || false,
+                care_of_elderly_experience: care_of_elderly_experience || false,
+                care_of_elderly_assessment,
+
+                care_of_disabled,
+                care_of_disabled_willingness: care_of_disabled_willingness || false,
+                care_of_disabled_experience: care_of_disabled_experience || false,
+                care_of_disabled_assessment,
+
+                general_housework,
+                general_housework_willingnes: general_housework_willingnes || false,
+                general_housework_experience: general_housework_experience || false,
+                general_housework_assessment,
+
+                cooking,
+                cooking_willingness: cooking_willingness || false,
+                cooking_experience: cooking_experience || false,
+                cooking_assessment,
+
+                language_abilities,
+                language_abilities_willingness: language_abilities_willingness || false,
+                language_abilities_experience: language_abilities_experience || false,
+                language_abilities_assessment,
+                
+                other_skills,
+                other_skills_willingness: other_skills_willingness || false,
+                other_skills_experience: other_skills_experience || false,
+                other_skills_assessment,
                 date_from: dateFrom,
                 date_to: dateTo,
                 country,
@@ -252,30 +263,277 @@ export const addBioData = async(req: Request, res: Response) => {
 
 export const getBioDataList = async(req:Request,res:Response) => {
     try {
-        const bioDataList = await prisma.bioData.findMany();
+        // Extract query parameters
+        const { 
+            search = '', 
+            status = '', 
+            nationality = '', 
+            date_from = '', 
+            date_to = '',
+            page = '1', 
+            limit = '10' 
+        } = req.query;
+
+        const pageNum = parseInt(page as string) || 1;
+        const limitNum = parseInt(limit as string) || 10;
+        const skip = (pageNum - 1) * limitNum;
+
+        // Build where clause for filtering
+        const whereClause: any = {};
+
+        // Search functionality (search in name, nationality, skills, language_abilities)
+        if (search) {
+            whereClause.OR = [
+                { full_name: { contains: search as string, mode: 'insensitive' } },
+                { nationality: { contains: search as string, mode: 'insensitive' } },
+                { other_skills: { contains: search as string, mode: 'insensitive' } },
+                { language_abilities: { contains: search as string, mode: 'insensitive' } }
+            ];
+        }
+
+        // Status filter
+        if (status && status !== 'all') {
+            whereClause.status = status;
+        }
+
+        // Nationality filter
+        if (nationality && nationality !== 'all') {
+            whereClause.nationality = nationality;
+        }
+
+        // Date range filter (based on date_of_birth)
+        if (date_from || date_to) {
+            whereClause.date_of_birth = {};
+            if (date_from) {
+                whereClause.date_of_birth.gte = new Date(date_from as string);
+            }
+            if (date_to) {
+                whereClause.date_of_birth.lte = new Date(date_to as string);
+            }
+        }
+
+        // Get total count for pagination
+        const totalCount = await prisma.bioData.count({ where: whereClause });
+
+        // Get paginated results
+        const bioDataList = await prisma.bioData.findMany({
+            where: whereClause,
+            skip: skip,
+            take: limitNum,
+            orderBy: { createdAt: 'desc' }
+        });
+
+        // Transform data
+        const transformedData = bioDataList.map((biodata) => {
+            return {
+                id: biodata.id,
+                image: biodata.image ? `${process.env.APP_URL}/bio-data/${biodata.image}` : null,
+                full_name: biodata.full_name,
+                age: biodata.date_of_birth ? new Date().getFullYear() - new Date(biodata.date_of_birth).getFullYear() : null,
+                language_abilities: biodata.language_abilities ? biodata.language_abilities : null,
+                // Calculate experience in years from date_from and date_to
+                experience: (biodata.date_from && biodata.date_to) ? 
+                    new Date(biodata.date_to).getFullYear() - new Date(biodata.date_from).getFullYear() : null,
+                nationality: biodata.nationality ? biodata.nationality : null,
+                // Skills from other_skills field
+                skills: biodata.other_skills ? biodata.other_skills : null,
+                status: biodata.status ? biodata.status : null,
+                createdAt: biodata.createdAt
+            };
+        });
+
+        // Calculate pagination info
+        const totalPages = Math.ceil(totalCount / limitNum);
+        const hasNextPage = pageNum < totalPages;
+        const hasPrevPage = pageNum > 1;
+
         res.status(200).json({
             success: true,
             message: "Bio data list fetched successfully",
-            data: bioDataList.map((biodata)=>{
-                return{
-                    image:biodata.image ? `${process.env.APP_URL}/bio-data/${biodata.image}` : null,
-                    full_name:biodata.full_name,
-                    age:biodata.date_of_birth ? new Date().getFullYear() - new Date(biodata.date_of_birth).getFullYear() : null,
-                    language: biodata.languages ? biodata.languages : null,
-                    // we have to send the experience in year by calculating the difference between date_from and date_to
-                    experience: (biodata.date_from && biodata.date_to) ? new Date(biodata.date_to).getFullYear() - new Date(biodata.date_from).getFullYear() : null,
-                    nationality: biodata.nationality ? biodata.nationality : null,
-                    // here we have to send the list of skills of areas of work one to seven in one array
-                    skills: [biodata.area_of_work_one, biodata.area_of_work_two, biodata.area_of_work_three, biodata.area_of_work_four, biodata.area_of_work_five, biodata.area_of_work_six, biodata.area_of_work_seven],
-                    status: biodata.status ? biodata.status : null,
+            data: {
+                bioData: transformedData,
+                pagination: {
+                    currentPage: pageNum,
+                    totalPages: totalPages,
+                    totalCount: totalCount,
+                    hasNextPage: hasNextPage,
+                    hasPrevPage: hasPrevPage,
+                    limit: limitNum
                 }
-            })
+            }
         });
         
     } catch (error:any) {
         res.status(400).json({
             success: false,
             message: `Error getting bio data list: ${error.message || error}`,
+            data: null
+        });
+    }
+}
+
+export const changeBioStatus = async(req:Request,res:Response) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        await prisma.bioData.update({
+            where: { id: id },
+            data: { status: status }
+        });
+        res.status(200).json({
+            success: true,
+            message: "Bio status changed successfully",
+            data: null
+        });
+    } catch (error:any) {
+        res.status(400).json({
+            success: false,
+            message: `Error changing bio status: ${error.message || error}`,
+            data: null
+        });
+    }
+}
+
+export const getBioData = async(req:Request,res:Response) => {
+    try {
+        const { id } = req.params;
+        const bioData = await prisma.bioData.findUnique({
+            where: { id: id }
+        });
+        res.status(200).json({
+            success: true,
+            message: "Bio data fetched successfully",
+            data: {
+                image_url: bioData?.image ? `${process.env.APP_URL}/bio-data/${bioData.image}` : null,
+                ...bioData
+            }
+        });
+    } catch (error:any) {
+        res.status(400).json({
+            success: false,
+            message: `Error getting bio data: ${error.message || error}`,
+            data: null
+        });
+    }
+}
+
+
+export const deleteBioData = async(req:Request,res:Response) => {
+    try {
+        const { id } = req.params;
+        await prisma.bioData.delete({
+            where: { id: id }
+        });
+        res.status(200).json({
+            success: true,
+            message: "Bio data deleted successfully",
+            data: null
+        });
+    } catch (error:any) {
+        res.status(400).json({
+            success: false,
+            message: `Error deleting bio data: ${error.message || error}`,
+            data: null
+        });
+    }
+}
+
+export const editBioDataById = async(req:Request,res:Response) => {
+    try {
+        const { id } = req.params;
+        
+        // Check if bio data exists
+        const existingBioData = await prisma.bioData.findUnique({
+            where: { id: id }
+        });
+        
+        if (!existingBioData) {
+            return res.status(404).json({
+                success: false,
+                message: "Bio data not found",
+                data: null
+            });
+        }
+
+        // Prepare update data
+        const updateData: any = {};
+        
+        // Handle image update if new file is uploaded
+        if (req.file) {
+            // Delete old image if it exists
+            if (existingBioData.image) {
+                const oldImagePath = `public/bio-data/${existingBioData.image}`;
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlinkSync(oldImagePath);
+                }
+            }
+            updateData.image = req.file.filename;
+        }
+
+        // Handle other fields from req.body
+        const allowedFields = [
+            'full_name', 'date_of_birth', 'place_of_birth', 'nationality', 'height', 'weight',
+            'name_of_airPort', 'marital_status', 'religion', 'education_level', 'age_of_childern',
+            'number_of_childern', 'allergies', 'physical_disabilities', 'mental_illness', 'epilepsy',
+            'tuberculosis', 'heart_disease', 'malaria', 'operations', 'others', 'dietary_restrictions',
+            'preference_for_rest_days', 'any_other_remarks', 'care_of_infants', 'care_of_infants_willingness',
+            'care_of_infants_experience', 'care_of_infants_assessment', 'care_of_elderly',
+            'care_of_elderly_willingness', 'care_of_elderly_experience', 'care_of_elderly_assessment',
+            'care_of_disabled', 'care_of_disabled_willingness', 'care_of_disabled_experience',
+            'care_of_disabled_assessment', 'general_housework', 'general_housework_willingnes',
+            'general_housework_experience', 'general_housework_assessment', 'cooking',
+            'cooking_willingness', 'cooking_experience', 'cooking_assessment', 'language_abilities',
+            'language_abilities_willingness', 'language_abilities_experience', 'language_abilities_assessment',
+            'other_skills', 'other_skills_willingness', 'other_skills_experience', 'other_skills_assessment',
+            'date_from', 'date_to', 'country', 'employer', 'work_duties', 'remarks', 'other_remarks', 'status'
+        ];
+
+        // Process each field from req.body
+        for (const field of allowedFields) {
+            if (req.body[field] !== undefined) {
+                if (field === 'date_of_birth' || field === 'date_from' || field === 'date_to') {
+                    // Handle date fields
+                    if (req.body[field]) {
+                        const dateValue = new Date(req.body[field]);
+                        if (!isNaN(dateValue.getTime())) {
+                            updateData[field] = dateValue;
+                        }
+                    }
+                } else if (field === 'allergies' || field === 'physical_disabilities' || field === 'mental_illness' || 
+                          field === 'epilepsy' || field === 'tuberculosis' || field === 'heart_disease' || 
+                          field === 'malaria' || field === 'operations' || field === 'dietary_restrictions' || 
+                          field === 'preference_for_rest_days' || field === 'care_of_infants_willingness' || 
+                          field === 'care_of_infants_experience' || field === 'care_of_elderly_willingness' || 
+                          field === 'care_of_elderly_experience' || field === 'care_of_disabled_willingness' || 
+                          field === 'care_of_disabled_experience' || field === 'general_housework_willingnes' || 
+                          field === 'general_housework_experience' || field === 'cooking_willingness' || 
+                          field === 'cooking_experience' || field === 'language_abilities_willingness' || 
+                          field === 'language_abilities_experience' || field === 'other_skills_willingness' || 
+                          field === 'other_skills_experience') {
+                    // Handle boolean fields
+                    updateData[field] = req.body[field] === 'true' || req.body[field] === true;
+                } else {
+                    // Handle other fields
+                    updateData[field] = req.body[field];
+                }
+            }
+        }
+
+        // Update the bio data
+        const bioData = await prisma.bioData.update({
+            where: { id: id },
+            data: updateData
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Bio data edited successfully",
+            data: bioData
+        });
+    } catch (error:any) {
+        res.status(400).json({
+            success: false,
+            message: `Error editing bio data: ${error.message || error}`,
             data: null
         });
     }

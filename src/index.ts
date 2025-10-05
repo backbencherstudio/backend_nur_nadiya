@@ -16,7 +16,7 @@ app.use(cors({
     allowedHeaders:["Content-Type", "Authorization"],
 }))
 
-app.use('/',(req,res)=>{
+app.use('/is-working',(req,res)=>{
     res.send("Hello World 2")
 })
 
