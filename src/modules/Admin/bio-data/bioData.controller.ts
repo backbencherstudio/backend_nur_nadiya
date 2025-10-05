@@ -376,7 +376,7 @@ export const changeBioStatus = async(req:Request,res:Response) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
-        const bioData = await prisma.bioData.update({
+        await prisma.bioData.update({
             where: { id: id },
             data: { status: status }
         });

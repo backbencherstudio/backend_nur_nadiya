@@ -44,7 +44,6 @@ export const getAllEnquiries = async(req: Request, res: Response) => {
         const { 
             search = '', 
             type = '', 
-            status = '',
             page = '1', 
             limit = '10' 
         } = req.query;
