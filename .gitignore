@@ -1,5 +1,8 @@
 node_modules
 # Keep environment variables out of version control
+temp_auto_push.bat
 .env
 
 /src/generated/prisma
+.gitignore
+branch_structure.json
