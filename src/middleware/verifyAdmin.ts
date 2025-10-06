@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
-import { appCOnfig } from "../config/app.config.js";
+import { appCOnfig } from "../config/app.config";
 
 const prisma = new PrismaClient();
 
@@ -22,7 +22,6 @@ export const verifyAdmin = async (req: Request, res: Response, next: NextFunctio
             id: (req.user as any)?.id
         }
     });
-
     if(!user){
         return res.status(401).json({success:false, message:"User not found"})
     }
