@@ -11,7 +11,7 @@ app.use(passport.initialize());
 
 app.use(express.json());
 app.use(cors({
-    origin: ["https://www.transfermaidsingapore.com", "http://localhost:3000","http://localhost:3001","http://localhost:3002","http://localhost:3003", "https://backend.transfermaidsingapore.com"],
+    origin: ["https://www.transfermaidsingapore.com", "http://localhost:3000","http://localhost:3001","http://localhost:3002","http://localhost:3003", "https://nur-nadiya-tan-front-end.vercel.app"],
     credentials: true,
     allowedHeaders:["Content-Type", "Authorization"],
 }))
