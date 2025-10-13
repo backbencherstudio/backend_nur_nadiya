@@ -36,7 +36,7 @@ export const upload = multer({
     storage, 
     fileFilter,
     limits: {
-        fileSize: 2 * 1024 * 1024 // 2MB limit
+        fileSize: 50 * 1024 * 1024 // 50MB limit
     }
 });
 
@@ -47,10 +47,10 @@ export const addEnquiry = async(req: Request, res: Response)=>{
             // Check file size (additional validation) - only for maid enquiries
             if (req.file) {
                 const fileSizeInMB = req.file.size / (1024 * 1024);
-                if (fileSizeInMB > 2) {
+                if (fileSizeInMB > 50) {
                     return res.status(400).json({
                         success: false,
-                        message: `File size is ${fileSizeInMB.toFixed(2)}MB. Maximum allowed size is 2MB.`
+                        message: `File size is ${fileSizeInMB.toFixed(50)}MB. Maximum allowed size is 50MB.`
                     });
                 }
             }
