@@ -6,6 +6,14 @@ import fs from "fs";
 
 const prisma = new PrismaClient();
 
+// Utility: robustly coerce various truthy/falsey representations to boolean
+const toBoolean = (value: any): boolean => {
+    if (typeof value === 'boolean') return value;
+    if (value === null || value === undefined) return false;
+    const normalized = String(value).trim().toLowerCase();
+    return ['true', '1', 'yes', 'y', 'on'].includes(normalized);
+};
+
 // Configure multer for bio data image upload
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -190,52 +198,52 @@ export const addBioData = async(req: Request, res: Response) => {
                 age_of_childern,
                 number_of_childern,
                 image: req.file.filename,
-                allergies: allergies || false,
-                physical_disabilities: physical_disabilities || false,
-                mental_illness: mental_illness || false,
-                epilepsy: epilepsy || false,
-                tuberculosis: tuberculosis || false,
-                heart_disease: heart_disease || false,
-                malaria: malaria || false,
-                operations: operations || false,
+                allergies: toBoolean(allergies),
+                physical_disabilities: toBoolean(physical_disabilities),
+                mental_illness: toBoolean(mental_illness),
+                epilepsy: toBoolean(epilepsy),
+                tuberculosis: toBoolean(tuberculosis),
+                heart_disease: toBoolean(heart_disease),
+                malaria: toBoolean(malaria),
+                operations: toBoolean(operations),
                 others,
-                dietary_restrictions: dietary_restrictions || false,
-                preference_for_rest_days: preference_for_rest_days || false,
+                dietary_restrictions: toBoolean(dietary_restrictions),
+                preference_for_rest_days: toBoolean(preference_for_rest_days),
 
                 any_other_remarks,
                 care_of_infants,
-                care_of_infants_willingness: care_of_infants_willingness || false,
-                care_of_infants_experience: care_of_infants_experience || false,
+                care_of_infants_willingness: toBoolean(care_of_infants_willingness),
+                care_of_infants_experience: toBoolean(care_of_infants_experience),
                 care_of_infants_assessment,
 
                 care_of_elderly,
-                care_of_elderly_willingness: care_of_elderly_willingness || false,
-                care_of_elderly_experience: care_of_elderly_experience || false,
+                care_of_elderly_willingness: toBoolean(care_of_elderly_willingness),
+                care_of_elderly_experience: toBoolean(care_of_elderly_experience),
                 care_of_elderly_assessment,
 
                 care_of_disabled,
-                care_of_disabled_willingness: care_of_disabled_willingness || false,
-                care_of_disabled_experience: care_of_disabled_experience || false,
+                care_of_disabled_willingness: toBoolean(care_of_disabled_willingness),
+                care_of_disabled_experience: toBoolean(care_of_disabled_experience),
                 care_of_disabled_assessment,
 
                 general_housework,
-                general_housework_willingnes: general_housework_willingnes || false,
-                general_housework_experience: general_housework_experience || false,
+                general_housework_willingnes: toBoolean(general_housework_willingnes),
+                general_housework_experience: toBoolean(general_housework_experience),
                 general_housework_assessment,
 
                 cooking,
-                cooking_willingness: cooking_willingness || false,
-                cooking_experience: cooking_experience || false,
+                cooking_willingness: toBoolean(cooking_willingness),
+                cooking_experience: toBoolean(cooking_experience),
                 cooking_assessment,
 
                 language_abilities,
-                language_abilities_willingness: language_abilities_willingness || false,
-                language_abilities_experience: language_abilities_experience || false,
+                language_abilities_willingness: toBoolean(language_abilities_willingness),
+                language_abilities_experience: toBoolean(language_abilities_experience),
                 language_abilities_assessment,
                 
                 other_skills,
-                other_skills_willingness: other_skills_willingness || false,
-                other_skills_experience: other_skills_experience || false,
+                other_skills_willingness: toBoolean(other_skills_willingness),
+                other_skills_experience: toBoolean(other_skills_experience),
                 other_skills_assessment,
                 date_from: dateFrom,
                 date_to: dateTo,
