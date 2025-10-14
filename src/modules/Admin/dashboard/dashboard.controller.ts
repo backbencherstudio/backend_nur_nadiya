@@ -241,33 +241,39 @@ export const changeEnquiryStatus = async(req:Request,res:Response) => {
             where: { id: id }
         });
 
-        if(!maidEnquiry) {
-            await prisma.employerEnquiry.update({
+        if (maidEnquiry) {
+            await prisma.maidEnquiry.update({
                 where: { id: id },
-                data: {
-                    status: status
-                }
+                data: { status: status }
             });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Enquiry status changed successfully",
                 data: null
             });
         }
 
-        if(maidEnquiry) {
-        await prisma.maidEnquiry.update({
-            where: { id: id },
-                data: {
-                    status: status
-                }
+        const employerEnquiry = await prisma.employerEnquiry.findUnique({
+            where: { id: id }
+        });
+
+        if (employerEnquiry) {
+            await prisma.employerEnquiry.update({
+                where: { id: id },
+                data: { status: status }
             });
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Enquiry status changed successfully",
                 data: null
             });
         }
+
+        return res.status(404).json({
+            success: false,
+            message: "Enquiry not found",
+            data: null
+        });
     } catch (error:any) {
         res.status(400).json({
             success: false,
