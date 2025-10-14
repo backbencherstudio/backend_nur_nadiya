@@ -44,6 +44,7 @@ export const getAllEnquiries = async(req: Request, res: Response) => {
         const { 
             search = '', 
             type = '', 
+            status = '',
             page = '1', 
             limit = '10' 
         } = req.query;
@@ -78,6 +79,12 @@ export const getAllEnquiries = async(req: Request, res: Response) => {
                 ]
             };
             employerWhereClause.AND = [searchCondition];
+        }
+
+        // Status filter (applies to both unless type narrows the dataset elsewhere)
+        if (status && status !== 'all') {
+            maidWhereClause.status = status as string;
+            employerWhereClause.status = status as string;
         }
 
         // Type filter
