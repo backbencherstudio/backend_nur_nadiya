@@ -87,6 +87,9 @@ export const addBioData = async(req: Request, res: Response) => {
             physical_disabilities,
             mental_illness,
             epilepsy,
+            asthma,
+            diabetes,
+            hypertension,
             tuberculosis,
             heart_disease,
             malaria,
@@ -202,6 +205,9 @@ export const addBioData = async(req: Request, res: Response) => {
                 physical_disabilities: toBoolean(physical_disabilities),
                 mental_illness: toBoolean(mental_illness),
                 epilepsy: toBoolean(epilepsy),
+                asthma: toBoolean(asthma),
+                diabetes: toBoolean(diabetes),
+                hypertension: toBoolean(hypertension),
                 tuberculosis: toBoolean(tuberculosis),
                 heart_disease: toBoolean(heart_disease),
                 malaria: toBoolean(malaria),
@@ -482,7 +488,8 @@ export const editBioDataById = async(req:Request,res:Response) => {
         const allowedFields = [
             'full_name', 'date_of_birth', 'place_of_birth', 'nationality', 'height', 'weight',
             'name_of_airPort', 'marital_status', 'religion', 'education_level', 'age_of_childern',
-            'number_of_childern', 'allergies', 'physical_disabilities', 'mental_illness', 'epilepsy',
+            'number_of_childern', 'allergies', 'physical_disabilities', 'mental_illness', 'epilepsy','asthma',
+            'diabetes', 'hypertension',
             'tuberculosis', 'heart_disease', 'malaria', 'operations', 'others', 'dietary_restrictions',
             'preference_for_rest_days', 'any_other_remarks', 'care_of_infants', 'care_of_infants_willingness',
             'care_of_infants_experience', 'care_of_infants_assessment', 'care_of_elderly',
@@ -508,7 +515,8 @@ export const editBioDataById = async(req:Request,res:Response) => {
                         }
                     }
                 } else if (field === 'allergies' || field === 'physical_disabilities' || field === 'mental_illness' || 
-                          field === 'epilepsy' || field === 'tuberculosis' || field === 'heart_disease' || 
+                          field === 'epilepsy' || field === 'asthma' || field === 'diabetes' || field === 'hypertension' || 
+                          field === 'tuberculosis' || field === 'heart_disease' || 
                           field === 'malaria' || field === 'operations' || field === 'dietary_restrictions' || 
                           field === 'preference_for_rest_days' || field === 'care_of_infants_willingness' || 
                           field === 'care_of_infants_experience' || field === 'care_of_elderly_willingness' || 
