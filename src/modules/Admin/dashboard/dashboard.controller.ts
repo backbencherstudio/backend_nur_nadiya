@@ -107,15 +107,15 @@ export const getAllEnquiries = async(req: Request, res: Response) => {
                     date_of_birth: enquiry.date_of_birth,
                     transfer_date: enquiry.transfer_date,
                     wp_number: enquiry.wp_number,
+                    mobile_number: enquiry.mobile_number,
                     language: enquiry.language,
                     nationality: enquiry.nationality,
                     additional_information: enquiry.additional_information,
                     current_employer: enquiry.current_employer,
-                    contact: enquiry.mobile_number,
-                    date: enquiry.createdAt.toISOString().split('T')[0],
-                    time: enquiry.createdAt.toTimeString().split(' ')[0].substring(0, 5),
-                    source: 'Website', // Default source
-                    status: enquiry.status // Default status
+                    image_name: enquiry.image_name,
+                    status: enquiry.status,
+                    createdAt: enquiry.createdAt,
+                    updatedAt: enquiry.updatedAt
                 }));
 
                 const totalPages = Math.ceil(totalCount / limitNum);
@@ -209,16 +209,44 @@ export const getAllEnquiries = async(req: Request, res: Response) => {
         const paginatedEnquiries = allEnquiries.slice(skip, skip + limitNum);
 
         // Transform data
-        const transformedData = paginatedEnquiries.map((enquiry: any) => ({
-            id: enquiry.id,
-            name: enquiry.full_name,
-            type: enquiry.type,
-            contact: enquiry.type === 'Maid' ? enquiry.mobile_number : enquiry.contact_number,
-            date: enquiry.createdAt.toISOString().split('T')[0],
-            time: enquiry.createdAt.toTimeString().split(' ')[0].substring(0, 5),
-            source: 'Website', // Default source
-            status: enquiry.status // Default status
-        }));
+        const transformedData = paginatedEnquiries.map((enquiry: any) => {
+            if (enquiry.type === 'Maid') {
+                return {
+                    id: enquiry.id,
+                    full_name: enquiry.full_name,
+                    enquiry_type: enquiry.enquiry_type,
+                    date_of_birth: enquiry.date_of_birth,
+                    transfer_date: enquiry.transfer_date,
+                    wp_number: enquiry.wp_number,
+                    mobile_number: enquiry.mobile_number,
+                    language: enquiry.language,
+                    nationality: enquiry.nationality,
+                    additional_information: enquiry.additional_information,
+                    current_employer: enquiry.current_employer,
+                    image_name: enquiry.image_name,
+                    status: enquiry.status,
+                    createdAt: enquiry.createdAt,
+                    updatedAt: enquiry.updatedAt,
+                    type: 'Maid'
+                };
+            } else {
+                return {
+                    id: enquiry.id,
+                    full_name: enquiry.full_name,
+                    enquiry_type: enquiry.enquiry_type,
+                    contact_number: enquiry.contact_number,
+                    email: enquiry.email,
+                    hosehold_type: enquiry.hosehold_type,
+                    language: enquiry.language,
+                    budget: enquiry.budget,
+                    additional_information: enquiry.additional_information,
+                    status: enquiry.status,
+                    createdAt: enquiry.createdAt,
+                    updatedAt: enquiry.updatedAt,
+                    type: 'Employer'
+                };
+            }
+        });
 
         // Calculate pagination info
         const totalPages = Math.ceil(totalCount / limitNum);
