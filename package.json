@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec \"node --loader ts-node/esm --experimental-specifier-resolution=node\" src/index.ts",
+    "dev": "nodemon --exec \"node --loader ts-node/esm\" src/index.ts",
+    "dev:alt": "nodemon --exec \"tsx src/index.ts\"",
     "build:github": "tsc",
     "build": "npx prisma generate && npx prisma migrate deploy && npm install && tsc",
     "build:prod": "tsc",
@@ -45,6 +46,7 @@
     "@typescript-eslint/parser": "^8.44.1",
     "eslint": "^9.36.0",
     "globals": "^16.4.0",
+    "tsx": "^4.7.0",
     "typescript-eslint": "^8.44.1"
   }
 }
