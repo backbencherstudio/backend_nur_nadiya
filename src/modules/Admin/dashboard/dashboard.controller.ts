@@ -102,8 +102,8 @@ export const getAllEnquiries = async(req: Request, res: Response) => {
 
                 const transformedData = maidEnquiries.map((enquiry) => ({
                     id: enquiry.id,
-                    name: enquiry.full_name,
-                    type: enquiry.enquiry_type,
+                    full_name: enquiry.full_name,
+                    enquiry_type: enquiry.enquiry_type,
                     date_of_birth: enquiry.date_of_birth,
                     transfer_date: enquiry.transfer_date,
                     wp_number: enquiry.wp_number,
@@ -150,9 +150,9 @@ export const getAllEnquiries = async(req: Request, res: Response) => {
 
                 const transformedData = employerEnquiries.map((enquiry) => ({
                     id: enquiry.id,
-                    name: enquiry.full_name,
-                    type: 'Employer',
-                    contact: enquiry.contact_number,
+                    full_name: enquiry.full_name,
+                    enquiry_type: enquiry.enquiry_type,
+                    mobile_number: enquiry.contact_number,
                     email: enquiry.email,
                     hosehold_type: enquiry.hosehold_type,
                     language: enquiry.language,
@@ -234,7 +234,7 @@ export const getAllEnquiries = async(req: Request, res: Response) => {
                     id: enquiry.id,
                     full_name: enquiry.full_name,
                     enquiry_type: enquiry.enquiry_type,
-                    contact_number: enquiry.contact_number,
+                    mobile_number: enquiry.contact_number,
                     email: enquiry.email,
                     hosehold_type: enquiry.hosehold_type,
                     language: enquiry.language,
