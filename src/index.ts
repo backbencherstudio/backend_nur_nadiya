@@ -10,6 +10,7 @@ const app = express();
 app.use(passport.initialize());
 
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use(cors({
     origin: ["https://www.transfermaidsingapore.com", "http://localhost:3000","http://localhost:3001","http://localhost:3002","http://localhost:3003", "https://nur-nadiya-tan-front-end.vercel.app"],
     credentials: true,

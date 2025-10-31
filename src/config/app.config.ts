@@ -10,6 +10,14 @@ export const appCOnfig = {
         access_secret_key: process.env.ACCESS_SECRET_KEY || "your-secret-key-here",
         refresh_secret_key: process.env.REFRESH_SECRET_KEY || "your-secret-key-here"
     },
+    mail:{
+        host: process.env.MAIL_HOST || "",
+        port: process.env.MAIL_PORT ? Number(process.env.MAIL_PORT) : 587,
+        user: process.env.MAIL_USER || "",
+        pass: process.env.MAIL_PASS || "",
+        from: process.env.MAIL_FROM || process.env.MAIL_USER || "",
+        to: process.env.MAIL_TO || process.env.MAIL_USER || ""
+    },
     oauth:{
         google_client_id: process.env.GOOGLE_CLIENT_ID || "",
         google_client_secret: process.env.GOOGLE_CLIENT_SECRET || "",
