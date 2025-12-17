@@ -13,6 +13,7 @@ app.use(cors({
     origin: ["https://transfermaidsingapore.com", "https://www.transfermaidsingapore.com", "http://localhost:3000","http://localhost:3001","http://localhost:3002","http://localhost:3003", "https://nur-nadiya-tan-front-end.vercel.app"],
     credentials: true,
     allowedHeaders:["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 }))
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
