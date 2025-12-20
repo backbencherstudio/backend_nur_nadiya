@@ -4,34 +4,47 @@ import { appCOnfig } from "./config/app.config.js";
 import cors from "cors";
 import passport from "./config/passport.js";
 
-const app = express();
+// Wrap in IIFE to avoid scope issues
+(function() {
+  const app = express();
 
-// initialize passport
-app.use(passport.initialize());
+  // initialize passport
+  app.use(passport.initialize());
 
-app.use(cors({
-    origin: ["https://transfermaidsingapore.com", "https://www.transfermaidsingapore.com", "http://localhost:3000","http://localhost:3001","http://localhost:3002","http://localhost:3003", "https://nur-nadiya-tan-front-end.vercel.app"],
-    credentials: true,
-    allowedHeaders:["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-}))
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+  const allowedOrigins = [
+    "https://transfermaidsingapore.com",
+    "https://www.transfermaidsingapore.com",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
+    "http://localhost:3003",
+    "https://nur-nadiya-tan-front-end.vercel.app",
+  ];
 
-app.use('/is-working',(req,res)=>{
-    res.send("Hello World 2")
-})
+  app.use(
+    cors({
+      origin: allowedOrigins,
+      credentials: true,
+    })
+  );
 
-// Serve static files (uploaded images)
-app.use('/uploads', express.static('public/enquiries'));
-app.use('/bio-data', express.static('public/bio-data'));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
-// setup routes
-setupRoutes(app);
+  app.use("/is-working", (req, res) => {
+    res.send("Hello World 2");
+  });
 
-// port
-const port = appCOnfig.app.port || 4000
-app.listen(port, ()=>{
-    console.log(`Server is running on port ${port}`);
-})
+  // Serve static files (uploaded images)
+  app.use("/uploads", express.static("public/enquiries"));
+  app.use("/bio-data", express.static("public/bio-data"));
 
+  // setup routes
+  setupRoutes(app);
+
+  // port
+  const port = appCOnfig.app.port || 4000;
+  app.listen(port, () => {
+    console.log(`http://localhost:${port}`);
+  });
+})();
