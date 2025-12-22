@@ -20,6 +20,7 @@ adminRoute.patch("/edit-bio-data-by-id/:id", verifyAdmin, uploadBioData.single('
 adminRoute.get("/dashboard", verifyAdmin, getDashboardData)
 
 
+adminRoute.post("/add-enquiry", upload.single('image'), handleUploadError, addEnquiry)
 adminRoute.post("/add-enquiry", verifyAdmin, upload.single('image'), handleUploadError, addEnquiry)
 adminRoute.get("/get-all-enquiries", verifyAdmin, getAllEnquiries)
 adminRoute.patch("/change-enquiry-status/:id", verifyAdmin, changeEnquiryStatus)
